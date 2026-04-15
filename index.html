@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perdigón — Rock Andalú</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Barlow+Condensed:wght@300;400;600;700;900&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ==============================
+       VARIABLES & RESET
+    ============================== */
+    :root {
+      --black: #080807;
+      --red: #b8200a;
+      --red-hot: #e8321a;
+      --gold: #d4a827;
+      --cream: #f0ead8;
+      --grey: #888070;
+      --section-gap: 120px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Grain texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: .035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ==============================
+       TYPOGRAPHY
+    ============================== */
+    .font-display {
+      font-family: 'Pirata One', cursive;
+      letter-spacing: .02em;
+    }
+
+    .font-condensed {
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+
+    h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    h2 .accent {
+      color: var(--red);
+    }
+
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .8rem;
+      display: block;
+    }
+
+    /* ==============================
+       LAYOUT HELPERS
+    ============================== */
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: var(--red);
+      margin: 1.4rem 0 2.2rem;
+    }
+
+    /* ==============================
+       BUTTONS
+    ============================== */
+    .btn {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: 14px 36px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all .2s;
+      position: relative;
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: var(--cream);
+      border-color: var(--red);
+    }
+
+    .btn-primary:hover {
+      background: var(--red-hot);
+      border-color: var(--red-hot);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(184, 32, 10, .4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--cream);
+      border-color: var(--cream);
+    }
+
+    .btn-outline:hover {
+      background: var(--cream);
+      color: var(--black);
+    }
+
+    .btn-gold {
+      background: transparent;
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .btn-gold:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    /* ==============================
+       1. HERO
+    ============================== */
+    #hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 0.3vh;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* — Fondo: sustituye la URL por tu foto de directo — */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url(img/banda.jpg);
+      /* ← CAMBIA ESTO */
+      background-size: cover;
+      background-position: center top;
+      filter: brightness(.45) saturate(.7);
+      transform: scale(1.04);
+      animation: heroZoom 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes heroZoom {
+      from {
+        transform: scale(1.04);
+      }
+
+      to {
+        transform: scale(1.12);
+      }
+    }
+
+    /* degradado inferior para que fluya con el resto */
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 35%;
+      background: linear-gradient(to bottom, transparent, var(--black));
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 40px 20px;
+    }
+
+    /* — Logo: sustituye por tu imagen SVG/PNG — */
+    .hero-logo {
+      width: min(580px, 88vw);
+      height: auto;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 0 40px rgba(184, 32, 10, .55));
+      /* Si no tienes imagen de logo aún, el texto de abajo actúa como logo */
+    }
+
+    /* Nombre de banda como fallback / titular si no hay img */
+    .hero-band-name {
+      font-family: 'Pirata One', cursive;
+      font-size: clamp(5rem, 16vw, 11rem);
+      line-height: .9;
+      color: var(--cream);
+      text-shadow:
+        4px 4px 0 var(--red),
+        0 0 60px rgba(184, 32, 10, .5);
+      animation: fadeUp .9s ease both;
+    }
+
+    .hero-tagline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 300;
+      font-size: clamp(1.1rem, 3.5vw, 1.9rem);
+      letter-spacing: .55em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 1rem 0 2.6rem;
+      animation: fadeUp .9s .2s ease both;
+    }
+
+    .hero-cta {
+      animation: fadeUp .9s .4s ease both;
+    }
+
+    .btn-hero {
+      font-size: 1.1rem;
+      padding: 18px 48px;
+      background: var(--red);
+      color: #fff;
+      border-color: var(--red);
+      box-shadow: 0 0 0 4px rgba(184, 32, 10, .25);
+    }
+
+    .btn-hero:hover {
+      background: var(--red-hot);
+      box-shadow: 0 0 0 6px rgba(232, 50, 26, .3), 0 8px 30px rgba(184, 32, 10, .5);
+      transform: translateY(-3px);
+    }
+
+    /* scroll hint */
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: .5;
+      animation: bounce 2s ease infinite;
+    }
+
+    .hero-scroll span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .7rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+    }
+
+    .hero-scroll svg {
+      width: 20px;
+      opacity: .8;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateX(-50%) translateY(0);
+      }
+
+      50% {
+        transform: translateX(-50%) translateY(8px);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ==============================
+       2. QUIÉNES SOMOS
+    ============================== */
+    #quienes {
+      padding: var(--section-gap) 0;
+    }
+
+    .quienes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 70px;
+      align-items: center;
+    }
+
+    .quienes-photo {
+      position: relative;
+    }
+
+    /* Marco decorativo esquina */
+    .quienes-photo::before {
+      content: '';
+      position: absolute;
+      top: -12px;
+      left: -12px;
+      right: 12px;
+      bottom: 12px;
+      border: 2px solid var(--red);
+      z-index: 0;
+    }
+
+    .quienes-photo img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      filter: saturate(.8) contrast(1.1);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Placeholder visual si no hay foto */
+    .quienes-photo .img-placeholder {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: #1a1714;
+      border: 2px dashed #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--grey);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .85rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    .quienes-text p {
+      margin-bottom: 1.2rem;
+      color: #cec8b8;
+    }
+
+    .band-members {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      justify-content: start;
+      gap: 10px;
+    }
+
+    .member-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .82rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border: 1px solid #333;
+      color: var(--grey);
+    }
+
+    .influences {
+      margin-top: 2.2rem;
+      padding-top: 1.8rem;
+      border-top: 1px solid #222;
+    }
+
+    .influences-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .75rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .8rem;
+    }
+
+    .influences-list {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--cream);
+      letter-spacing: .05em;
+    }
+
+    /* ==============================
+       3. AUDIOVISUAL
+    ============================== */
+    #audiovisual {
+      padding: var(--section-gap) 0;
+      background: #0d0c0b;
+    }
+
+    .av-header {
+      margin-bottom: 50px;
+    }
+
+    /* Badge "IMPRESCINDIBLE" */
+    .video-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 2;
+      background: var(--red);
+      color: #fff;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+    }
+
+    .video-caption {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .82rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    /* Vídeo único TikTok centrado */
+    .video-single {
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .video-single-wrap {
+      position: relative;
+      width: 325px;
+      height: 700px;
+      background: #111;
+      overflow: hidden;
+    }
+
+    .video-single-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* ==============================
+       4. FECHAS / GIRA
+    ============================== */
+    #fechas {
+      padding: var(--section-gap) 0;
+    }
+
+    .fechas-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .fechas-intro p {
+      color: #cec8b8;
+      margin-bottom: 1.4rem;
+    }
+
+    .gigs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .gig-item {
+      display: grid;
+      grid-template-columns: 90px 1fr auto;
+      align-items: center;
+      gap: 20px;
+      padding: 22px 0;
+      border-bottom: 1px solid #1d1c1a;
+      transition: background .15s;
+    }
+
+    .gig-item:first-child {
+      border-top: 1px solid #1d1c1a;
+    }
+
+    .gig-item:hover {
+      background: rgba(255, 255, 255, .02);
+      padding-left: 10px;
+      padding-right: 10px;
+      margin: 0 -10px;
+    }
+
+    .gig-date {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .gig-date .day {
+      display: block;
+      font-size: 2.4rem;
+      color: var(--red);
+    }
+
+    .gig-date .month {
+      display: block;
+      font-size: .78rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-top: 2px;
+    }
+
+    .gig-info .venue {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .gig-info .city {
+      font-size: .9rem;
+      color: var(--grey);
+      margin-top: 2px;
+    }
+
+    .gig-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    .gig-tag.sold {
+      border-color: var(--grey);
+      color: var(--grey);
+    }
+
+    /* Placeholder "próximos bolos" */
+    .no-dates {
+      padding: 50px 0;
+      text-align: center;
+      border: 1px dashed #2a2826;
+    }
+
+    .no-dates p {
+      color: var(--grey);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .85rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    /* ==============================
+       5. PROMOTORES / CONTACTO
+    ============================== */
+    #promotores {
+      padding: var(--section-gap) 0;
+      background: #0d0c0b;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Detalles decorativos de fondo */
+
+
+    .promotores-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-block h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.6rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 1.4rem;
+    }
+
+    .contact-icon {
+      width: 44px;
+      height: 44px;
+      border: 1px solid #2e2c28;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: var(--red);
+      stroke-width: 1.6;
+    }
+
+    .contact-value {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+
+    .contact-value small {
+      display: block;
+      font-size: .75rem;
+      font-weight: 400;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-top: 2px;
+    }
+
+    .rider-block {
+      padding: 36px;
+      border: 1px solid #222;
+      background: rgba(255, 255, 255, .02);
+    }
+
+    .rider-block h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .6rem;
+    }
+
+    .rider-block p {
+      color: #cec8b8;
+      font-size: .95rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .rider-specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 2rem;
+    }
+
+    .spec-item {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .82rem;
+      letter-spacing: .08em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #bab4a4;
+    }
+
+    .spec-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--red);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Social links en el footer del contacto */
+    .social-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 2rem;
+    }
+
+    .social-link {
+      width: 42px;
+      height: 42px;
+      border: 1px solid #2e2c28;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s;
+    }
+
+    .social-link:hover {
+      border-color: var(--red);
+      background: rgba(184, 32, 10, .12);
+    }
+
+    .social-link svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--cream);
+    }
+
+    /* ==============================
+       FOOTER
+    ============================== */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid #1a1917;
+      text-align: center;
+    }
+
+    footer p {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .78rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #444;
+    }
+
+    footer strong {
+      color: var(--gold);
+    }
+
+    /* ==============================
+       SCROLL REVEAL
+    ============================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ==============================
+       RESPONSIVE
+    ============================== */
+    @media (max-width: 820px) {
+      :root {
+        --section-gap: 80px;
+      }
+
+      .quienes-grid,
+      .fechas-grid,
+      .promotores-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gig-item {
+        grid-template-columns: 70px 1fr;
+      }
+
+      .gig-tag {
+        display: none;
+      }
+
+      .rider-block {
+        padding: 24px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .hero-band-name {
+        font-size: 4.5rem;
+      }
+
+      .rider-specs {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =====================
+       1. HERO / PORTADA
+  ===================== -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <!-- ↑ Cambia 'TU_FOTO_DIRECTO_AQUI.jpg' por la ruta de tu foto (ej: img/portada.jpg) -->
+
+    <div class="hero-content">
+      <img class="hero-logo" src="img/logo.png" alt="Perdigón" />
+    </div>
+
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 5v14M5 12l7 7 7-7" />
+      </svg>
+    </div>
+  </section>
+
+
+  <!-- =====================
+       2. QUIÉNES SOMOS
+  ===================== -->
+  <section id="quienes">
+    <div class="container">
+      <div class="quienes-grid">
+
+        <div class="quienes-photo reveal">
+          <!--
+            Cambia el src por vuestra foto de grupo o de directo.
+            Si aún no tenéis, borra el <img> y deja el <div class="img-placeholder">.
+          -->
+          <img src="img/fotobandavertical.jpg" alt="Perdigón en directo" />
+        </div>
+
+        <div class="quienes-text reveal">
+          <span class="section-label">Quiénes Somos</span>
+          <h2>Del Sur.</h2>
+          <div class="divider"></div>
+
+          <!--
+            EDITA ESTOS PÁRRAFOS con vuestra historia.
+            Sugerencia: de dónde sois, cómo empezasteis, qué actitud lleváis.
+          -->
+          <p>
+            Perdigón nació en Córdoba, con una idea sencilla: evadirnos de la carrera haciendo rock.
+            Somos 6 músicos, repartidos por Andalucía y juntados en Córdoba.
+            Un día, hablando de música, dijimos: ¿Y si ...?
+          </p>
+          <p>
+            Nuestro repertorio mezcla lo mejor que ha dado a luz el rock a nivel español —
+            Extremoduro, Platero y Tú, Marea, ... — con canciones propias nacidas de noches interminables.
+            Nuestra filosofía en directo es que el público disfrute igual (que no es poco) o más que nosotros.
+
+          <div class="band-members">
+            <span class="member-tag">Alberto · Vocalista</span>
+            <span class="member-tag">Anto · Guitarra Rítmica</span>
+            <span class="member-tag">Álex · Guitarra Principal</span>
+            <span class="member-tag">Pablo · Piano</span>
+            <span class="member-tag">Estromboli · Bajo</span>
+            <span class="member-tag">Josu · Batería</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =====================
+       3. AUDIOVISUAL
+  ===================== -->
+  <section id="audiovisual">
+    <div class="container">
+      <div class="av-header reveal">
+        <span class="section-label">Audiovisual</span>
+        <h2>Así <span class="accent">Sonamos</span></h2>
+        <div class="divider"></div>
+      </div>
+
+      <!-- VÍDEO: Cigarrito — Platero y Tú -->
+      <div class="video-single reveal">
+        <div class="video-single-wrap">
+          <div class="video-badge">Imprescindible</div>
+          <iframe src="https://www.tiktok.com/embed/v2/7628617714562649366" allowfullscreen
+            allow="autoplay; encrypted-media" style="border:0; width:100%; height:100%;">
+          </iframe>
+        </div>
+        <p class="video-caption" style="margin-top:12px;">Concierto Guitart</p>
+
+        <div style="margin-top: 28px; text-align: center;">
+          <a href="https://www.tiktok.com/@perdigonband" target="_blank" rel="noopener" class="btn btn-outline"
+            style="display:inline-flex; align-items:center; gap:10px;">
+            <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:currentColor;flex-shrink:0;">
+              <path
+                d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.75a8.2 8.2 0 0 0 4.79 1.53V6.79a4.85 4.85 0 0 1-1.02-.1z" />
+            </svg>
+            Ver más en TikTok
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =====================
+       4. FECHAS / GIRA
+  ===================== -->
+  <section id="fechas">
+    <div class="container">
+      <div class="fechas-grid">
+
+        <div class="reveal">
+          <span class="section-label">Agenda</span>
+          <h2>Próximos <span class="accent">Bolos</span></h2>
+          <div class="divider"></div>
+
+          <div
+            style="background: rgba(184,32,10,0.1); border-left: 3px solid var(--red); padding: 16px 20px; margin-bottom: 24px;">
+            <p
+              style="color:var(--cream); margin:0; font-family:'Barlow Condensed', sans-serif; font-size: 1.1rem; letter-spacing: 0.05em; text-transform: uppercase;">
+              <strong style="color:var(--gold);">Disponibilidad:</strong><br>
+              25 de julio - 10 de septiembre.
+            </p>
+          </div>
+
+          <p style="color:#cec8b8; margin-top:1rem;">
+            ¿Quieres que toquemos en tu local?
+            <a href="#promotores" style="color:var(--gold); border-bottom: 1px solid var(--gold);">Escríbenos.</a>
+          </p>
+        </div>
+
+        <div class="gigs-list reveal">
+
+          <!--
+            CÓMO AÑADIR/EDITAR UNA FECHA:
+            Copia un bloque .gig-item, cambia el día, mes, sala y ciudad.
+            El .gig-tag puede ser: "Confirmado", "Gira Norte", "Entradas Agotadas"
+            (añade class="sold" para ese último).
+
+            Si aún no tenéis fechas, borra los .gig-item y deja el .no-dates.
+          -->
+
+          <div class="gig-item">
+            <div class="gig-date">
+              <span class="day">DD</span>
+              <span class="month">MES</span>
+            </div>
+            <div class="gig-info">
+              <div class="venue">Local / Sala</div>
+              <div class="city">Ciudad, Provincia</div>
+            </div>
+            <span class="gig-tag">Por Cerrar</span>
+          </div>
+
+          <div class="gig-item">
+            <div class="gig-date">
+              <span class="day">DD</span>
+              <span class="month">MES</span>
+            </div>
+            <div class="gig-info">
+              <div class="venue">Local / Sala</div>
+              <div class="city">Ciudad, Provincia</div>
+            </div>
+            <span class="gig-tag">Por Cerrar</span>
+          </div>
+
+          <div class="gig-item">
+            <div class="gig-date">
+              <span class="day">DD</span>
+              <span class="month">MES</span>
+            </div>
+            <div class="gig-info">
+              <div class="venue">Local / Sala</div>
+              <div class="city">Ciudad, Provincia</div>
+            </div>
+            <span class="gig-tag">Por Cerrar</span>
+          </div>
+
+          <!-- Borra desde aquí si tenéis fechas reales -->
+          <!-- <div class="no-dates">
+            <p>Próximas fechas en preparación</p>
+          </div> -->
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =====================
+       5. PROMOTORES / CONTACTO
+  ===================== -->
+  <section id="promotores">
+    <div class="container">
+
+      <div class="reveal" style="margin-bottom: 52px;">
+        <h2>Hable<span class="accent">mos</span></h2>
+        <div class="divider"></div>
+      </div>
+
+      <div class="promotores-grid">
+
+        <!-- Columna izquierda: Contacto -->
+        <div class="contact-block reveal">
+          <h3>Contratación</h3>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <!-- Icono email -->
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+            </div>
+            <div class="contact-value">
+              <a href="mailto:perdigonremastered@gmail.com">perdigonremastered@gmail.com</a>
+              <small>Email de contacto</small>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <!-- Icono teléfono -->
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.1 12.09a19.79 19.79 0 0 1-3-8.57A2 2 0 0 1 3.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9a16 16 0 0 0 6.89 6.89l.72-.73a2 2 0 0 1 2.11-.44c.9.36 1.84.6 2.81.7A2 2 0 0 1 22 16.92Z" />
+              </svg>
+            </div>
+            <div class="contact-value">
+              <a href="tel:+34677630559">677 630 559</a>
+              <small>WhatsApp disponible</small>
+            </div>
+          </div>
+
+          <!-- Redes sociales -->
+          <div class="influences" style="padding-top:1.6rem; margin-top:1.6rem;">
+            <p class="influences-label">Síguenos</p>
+            <div class="social-links">
+
+              <!-- Instagram -->
+              <a class="social-link" href="https://instagram.com/perdigonband" target="_blank" rel="noopener"
+                title="Instagram">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                </svg>
+              </a>
+
+              <!-- YouTube -->
+              <a class="social-link" href="https://youtube.com/@perdigon_band" target="_blank" rel="noopener"
+                title="YouTube">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                </svg>
+              </a>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna derecha: Rider técnico -->
+        <div class="rider-block reveal">
+          <h3>📋 Rider Técnico</h3>
+          <p>
+            Aquí tienes la información técnica:
+          </p>
+
+          <div class="rider-specs">
+            <!-- Cambia estos datos por los vuestros reales -->
+            <div class="spec-item"><span class="spec-dot"></span> 6 músicos en escena</div>
+            <div class="spec-item"><span class="spec-dot"></span> 2 micrófonos</div>
+            <div class="spec-item"><span class="spec-dot"></span> Guitarra Principal</div>
+            <div class="spec-item"><span class="spec-dot"></span> Guitarra Rítmica</div>
+            <div class="spec-item"><span class="spec-dot"></span> Batería acústica</div>
+            <div class="spec-item"><span class="spec-dot"></span> Bajo</div>
+            <div class="spec-item"><span class="spec-dot"></span> Teclado</div>
+          </div>
+
+          <!--
+            BOTÓN RIDER:
+            Sube tu PDF de rider a la carpeta del sitio (ej: docs/rider_perdigon.pdf)
+            y cambia el href aquí abajo.
+          -->
+          <a href="docs/rider_perdigon.pdf" class="btn btn-gold" download>
+            ↓ &nbsp; Descargar Rider Técnico (PDF)
+          </a>
+
+          <p
+            style="font-size:.82rem; color:var(--grey); margin-top:1.2rem; font-family:'Barlow Condensed',sans-serif; letter-spacing:.05em;">
+            Para cualquier duda contáctanos.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =====================
+       FOOTER
+  ===================== -->
+  <footer>
+    <div class="container">
+      <p>
+        &copy; <span id="year"></span> &nbsp;<strong>Perdigón</strong> &nbsp;—&nbsp;
+        Rock Andalú &nbsp;·&nbsp; Córdoba, España
+      </p>
+    </div>
+  </footer>
+
+
+  <!-- =====================
+       JAVASCRIPT
+  ===================== -->
+  <script>
+    // Año automático en el footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach(el => observer.observe(el));
+
+    // Lightbox: un solo iframe a la vez
+    const modal = document.getElementById('video-modal');
+    const modalInner = document.getElementById('video-modal-inner');
+    const modalClose = document.getElementById('video-modal-close');
+
+    function openModal(src) {
+      const iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.allowFullscreen = true;
+      iframe.allow = 'autoplay; encrypted-media';
+      modalInner.appendChild(iframe);
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      // Destruir el iframe completamente para liberar el reproductor TikTok
+      const iframe = modalInner.querySelector('iframe');
+      if (iframe) iframe.remove();
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.video-overlay').forEach(overlay => {
+      overlay.addEventListener('click', function () {
+        const src = this.closest('.video-wrap').dataset.src;
+        if (src) openModal(src);
+      });
+    });
+
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  </script>
+
+  <!-- Lightbox modal para vídeos TikTok -->
+  <div id="video-modal">
+    <div id="video-modal-inner">
+      <button id="video-modal-close">✕ &nbsp;Cerrar</button>
+    </div>
+  </div>
+
+</body>
+
+</html>
